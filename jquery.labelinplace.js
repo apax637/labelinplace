@@ -37,6 +37,7 @@
             var settings = this.options
 
 
+
                  $(elment).each(function () {
                       var inputLabel = $("label[for='" + $(this).attr(settings.inputAttr) + "']");
 
@@ -82,41 +83,42 @@
 
                   $(elment).focus(function () {
 
-                      var focusLabel = $("label[for='" + $(this).attr(settings.inputAttr) + "']");
-                      var inputHeight = parseInt($(this).outerHeight());
-                      var labelHeight = parseInt(focusLabel.outerHeight());
-                      var paddingTop = parseInt($(this).css("padding-top"));
+                          var focusLabel = $("label[for='" + $(this).attr(settings.inputAttr) + "']");
+                          var inputHeight = parseInt($(this).outerHeight());
+                          var labelHeight = parseInt(focusLabel.outerHeight());
+                          var paddingTop = parseInt($(this).css("padding-top"));
 
 
+                          
+                          switch (settings.labelPosition) {
+                              case "down":
+                                   focusLabel.animate({ top: inputHeight }, settings.animSpeed, function () {
+                                    if ((settings.labelArrowUp) && (settings.labelArrowRight)) focusLabel.find("." + settings.classIcon).html(settings.labelArrowUp); 
 
-                      switch (settings.labelPosition) {
-                          case "down":
-                               focusLabel.animate({ top: inputHeight }, settings.animSpeed, function () {
-                                if ((settings.labelArrowUp) && (settings.labelArrowRight)) focusLabel.find("." + settings.classIcon).html(settings.labelArrowUp); 
+                                  });
+                                 $(this).animate({ height: inputHeight + labelHeight + paddingTop, "padding-bottom": labelHeight + paddingTop + "px" }, settings.animSpeed, function () {
+                                      if (focusLabel.is(":hidden")) focusLabel.show();
+                                      focusLabel.removeClass(settings.classPlaceholder).addClass(settings.classLabel);
+                                  });
 
-                              });
-                             $(this).animate({ height: inputHeight + labelHeight + paddingTop, "padding-bottom": labelHeight + paddingTop + "px" }, settings.animSpeed, function () {
-                                  if (focusLabel.is(":hidden")) focusLabel.show();
-                                  focusLabel.removeClass(settings.classPlaceholder).addClass(settings.classLabel);
-                              });
-
-                              break;
-
-
-                          default: //up
-                              $(this).animate({ height: inputHeight + labelHeight + paddingTop, "padding-top": labelHeight + paddingTop + "px" }, settings.animSpeed, function () {
-                                  if (focusLabel.is(":hidden")) focusLabel.show();
-                                  focusLabel.removeClass(settings.classPlaceholder).addClass(settings.classLabel);
-                                    if ((settings.labelArrowDown) && (settings.labelArrowRight)) focusLabel.find("." + settings.classIcon).html(settings.labelArrowDown); 
+                                  break;
 
 
-                              });
-                      }
+                              default: //up
+                                  $(this).animate({ height: inputHeight + labelHeight + paddingTop, "padding-top": labelHeight + paddingTop + "px" }, settings.animSpeed, function () {
+                                      if (focusLabel.is(":hidden")) focusLabel.show();
+                                      focusLabel.removeClass(settings.classPlaceholder).addClass(settings.classLabel);
+                                        if ((settings.labelArrowDown) && (settings.labelArrowRight)) focusLabel.find("." + settings.classIcon).html(settings.labelArrowDown); 
+
+
+                                  });
+                          }
+
 
 
                   });
 
-
+               
 
                   $(elment).blur(function () {
 
@@ -157,6 +159,21 @@
 
 
                   });
+
+
+                    //trigger click on label 
+//                  $("." + settings.wrapperClass).on( "click", "label." + settings.classPlaceholder, function() {
+                  $("." + settings.wrapperClass).on( "click", "label." + settings.classPlaceholder, function() {
+                      var inputElement = $("." + settings.wrapperClass + " [" + settings.inputAttr + "=" + $(this).attr("for") + "]")
+                      if (inputElement.not(':focus')) {
+                          inputElement.trigger( "focus" );
+//                          console.log("[" + settings.inputAttr + "=" + $(this).attr("for") + "]")
+
+                      };
+
+
+                  });
+
 
         }
 

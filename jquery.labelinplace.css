@@ -12,6 +12,7 @@
         }
         .mypaceholder {
             color:  #ddd;
+            cursor:text;
         }
         .mylabel {
             color: #999;
