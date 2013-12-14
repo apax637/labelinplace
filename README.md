@@ -21,7 +21,7 @@ Insert into your page's head tag:
 ### Step 3. HTML code
 ```bash
 <label for="name">Your name</label>
-<input type="text" class="labelinplace" id="name">
+<input type="text" class="labelinplace" name="name">
 ```
 ### Step 5. Javascript code
 ```bash
@@ -36,7 +36,7 @@ Configure
 ============
 ```bash
 $("#myForm .mylabel").labelinplace({
-    labelPosition: "top",                   //position for the placeholder [up|down]
+    labelPosition: "up",                   //position for the placeholder [up|down]
     classPlaceholder: "mypaceholder",       //class for the label when act as placeholder
     classLabel: "mylabel",                  //class for the label when act as label
     classIcon: "myicon",                    //class for the icon container
