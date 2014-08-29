@@ -49,3 +49,6 @@ $("#myForm .mylabel").labelinplace({
     inputAttr: "name"                       //the attribute that contains the name of INPUT/TEXTAREA
 });
 ```
+License
+============
+Labelinplace is licensed under the [MIT license](http://opensource.org/licenses/MIT).
