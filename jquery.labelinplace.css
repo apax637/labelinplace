@@ -6,10 +6,6 @@
             -ms-transition: all 150ms ease-out;
             transition: all 150ms ease-out;
         }
-
-        .label-group label .myicon {
-             color:  #ddd;           
-        }
         .mypaceholder {
             color:  #ddd;
             cursor:text;
@@ -20,4 +16,12 @@
 
         .mygroup {
             position:  relative;
+        }
+        .label-group label .myicon, .mypaceholder {
+                color:#ddd; 
+                cursor:text
+                
+        }
+        .myicon, .mylabel, .mypaceholder {
+                pointer-events: none;
         }
