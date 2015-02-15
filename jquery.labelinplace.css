@@ -13,14 +13,12 @@
         .mylabel {
             color: #999;
         }
-
         .mygroup {
             position:  relative;
         }
         .label-group label .myicon, .mypaceholder {
             color:#ddd; 
             cursor:text
-                
         }
         .myicon, .mylabel, .mypaceholder {
             pointer-events: none;
