@@ -13,7 +13,8 @@
             labelArrowUp: null, 
             labelArrowRight: null, 
             labelIconPosition: "append",
-            inputAttr: "name"
+            inputAttr: "name",
+			forceAlign: null
 
         };
 
@@ -57,6 +58,9 @@
                         "data-spaceBottom": spaceBottom
                     });
 
+					 
+					 
+
                     //if there is an icon
                     switch (settings.labelIconPosition) {
                         case "after":
@@ -71,8 +75,30 @@
 
     
                       $(this).removeAttr("placeholder");
+					 
+					 // Support for text-align - BLooperZ
+					 
+					 var align;
+					 if ($(this).css('textAlign') == "left" || $(this).css('textAlign') == "right")
+					 {
+						 align = $(this).css('textAlign');
+					 }
+					 else 
+					 {
+						 if ($(this).css('direction') == "rtl")
+						 {
+							 align = "right";
+						 }
+						 else 
+						 {
+							 align = "left";
+						 }
+					 }
+					 
+				if (settings.forceAlign) {align = settings.forceAlign;} 
 
-                      inputLabel.css("position", "absolute").css("top", spaceTop + "px").css("left", spaceLeft + "px").addClass(settings.classPlaceholder);
+
+                      inputLabel.css("position", "absolute").css("top", spaceTop + "px").css(align, spaceLeft + "px").addClass(settings.classPlaceholder);
                       if ($(elment).val()) inputLabel.hide();
 
                       $(this).prev("label").andSelf().wrapAll('<div class="' + settings.wrapperClass + '"/>');
@@ -92,7 +118,7 @@
                           
                           switch (settings.labelPosition) {
                               case "down":
-                                   focusLabel.animate({ top: inputHeight }, settings.animSpeed, function () {
+                                   focusLabel.animate({ top: inputHeight }, settings.animSpeed/5, function () {
                                     if ((settings.labelArrowUp) && (settings.labelArrowRight)) focusLabel.find("." + settings.classIcon).html(settings.labelArrowUp); 
 
                                   });
@@ -118,9 +144,9 @@
 
                   });
 
-               
+               //BLooperZ replaced blur order
 
-                  $(elment).blur(function () {
+                 $(elment).blur(function () {
 
                       var focusLabel = $("label[for='" + $(this).attr(settings.inputAttr) + "']");
 
@@ -132,28 +158,35 @@
                       switch (settings.labelPosition) {
 
                           case "down":
-                              $(this).animate({ height: inputHeight, "padding-bottom": paddingBottom + "px" }, settings.animSpeed, function () { });
+
                               if ($(this).val() != "") {
                                   focusLabel.hide();
                               } else {
-                                  focusLabel.animate({ top: paddingTop }, 200, function () { 
-                                    if ((settings.labelArrowUp) && (settings.labelArrowRight)) focusLabel.find("." + settings.classIcon).html(settings.labelArrowRight); 
-                                  
-                                  }).removeClass(settings.classLabel).addClass(settings.classPlaceholder);
+								  
+
+								  if ((settings.labelArrowUp) && (settings.labelArrowRight)) {
+									  focusLabel.find("." + settings.classIcon).html(settings.labelArrowRight); 
+								  }
+
+                                  focusLabel.animate({ top: paddingTop }, settings.animSpeed/4).removeClass(settings.classLabel).addClass(settings.classPlaceholder);
                               }
+							  $(this).animate({ height: inputHeight, "padding-bottom": paddingBottom + "px" }, settings.animSpeed);
                               break;
 
                           default: //up
-                              $(this).animate({ height: inputHeight, "padding-top": paddingTop + "px" }, settings.animSpeed, function () {
+							  
 
-                                  if ($(this).val() != "") {
-                                      focusLabel.hide();
-                                  } else {
-                                      focusLabel.removeClass(settings.classLabel).addClass(settings.classPlaceholder);
-                                       if ((settings.labelArrowDown) && (settings.labelArrowRight)) focusLabel.find("." + settings.classIcon).html(settings.labelArrowRight); 
-
-                                  }
-                              });
+							  if ($(this).val() != "") {
+								  focusLabel.hide();
+							  } else {
+								  focusLabel.removeClass(settings.classLabel).addClass(settings.classPlaceholder);
+								  if ((settings.labelArrowDown) && (settings.labelArrowRight)) {
+									  focusLabel.find("." + settings.classIcon).html(settings.labelArrowRight); 
+								  }
+								  
+							  }
+							  
+							  $(this).animate({height: inputHeight, "padding-top": paddingTop + "px" }, settings.animSpeed, function () { });
 
                       }
 
@@ -161,15 +194,19 @@
                   });
 
 
-                    //trigger click on label 
+                    // trigger click on label 
 //                  $("." + settings.wrapperClass).on( "click", "label." + settings.classPlaceholder, function() {
+
                   $("." + settings.wrapperClass).on( "click", "label." + settings.classPlaceholder, function() {
+					  
                       var inputElement = $("." + settings.wrapperClass + " [" + settings.inputAttr + "=" + $(this).attr("for") + "]")
                       if (inputElement.not(':focus')) {
+						  $(this).css('pointer-events', 'none');
                           inputElement.trigger( "focus" );
-//                          console.log("[" + settings.inputAttr + "=" + $(this).attr("for") + "]")
-
-                      };
+						  // console.log("[" + settings.inputAttr + "=" + $(this).attr("for") + "]")
+                      } else {
+					  		$(this).css('pointer-events', 'all')
+					  };
 
 
                   });
@@ -189,3 +226,4 @@
     };
 
 })( jQuery, window, document );
+
