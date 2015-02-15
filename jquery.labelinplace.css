@@ -18,10 +18,10 @@
             position:  relative;
         }
         .label-group label .myicon, .mypaceholder {
-                color:#ddd; 
-                cursor:text
+            color:#ddd; 
+            cursor:text
                 
         }
         .myicon, .mylabel, .mypaceholder {
-                pointer-events: none;
+            pointer-events: none;
         }
